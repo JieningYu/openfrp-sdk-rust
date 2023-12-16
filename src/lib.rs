@@ -14,7 +14,7 @@ pub use login::{login, Account};
 
 use std::collections::HashMap;
 
-use reqwest::{header::HeaderMap, redirect::Policy};
+use reqwest::redirect::Policy;
 use serde::Serialize;
 
 pub fn client() -> reqwest::Result<reqwest::Client> {
@@ -23,10 +23,6 @@ pub fn client() -> reqwest::Result<reqwest::Client> {
         .cookie_store(true)
         .build()?
         .clone())
-}
-
-pub fn get_headers_by_respone(response: &reqwest::Response) -> HeaderMap {
-    response.headers().clone()
 }
 
 #[allow(dead_code)]
