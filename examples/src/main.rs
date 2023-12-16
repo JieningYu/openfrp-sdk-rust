@@ -1,18 +1,19 @@
-use openfrp_sdk::{
-    login::{self, Account},
-    sign,
-    prelude::*,
-};
+use openfrp_sdk::*;
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let client = new_client()?;
-    let account = Account {
-        user: "example@example.com".to_string(),
-        password: "example_password".to_string(),
-    };
-    let auth = login::login(&account, client.clone()).await?;
-    let sign = sign::sign(&auth, client.clone()).await?;
-    println!("{auth:#?}\n{sign:#?}");
-    Ok(())
+fn main() -> Result<()> {
+    tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+        .unwrap()
+        .block_on(async {
+            let client = client()?;
+            let account = Account {
+                user: "example@example.com".to_string(),
+                password: "example_password".to_string(),
+            };
+            let auth = login(&account, client.clone()).await?;
+            let sign = sign(&auth, client.clone()).await?;
+            println!("{auth:#?}\n{sign:#?}");
+            Ok(())
+        })
 }
